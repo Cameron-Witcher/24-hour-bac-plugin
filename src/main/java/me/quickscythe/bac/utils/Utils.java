@@ -4,7 +4,6 @@ import me.quickscythe.bac.BacPlugin;
 import me.quickscythe.bac.utils.holograms.ClassicHologram;
 import me.quickscythe.bac.utils.holograms.HologramManager;
 import me.quickscythe.bac.utils.placeholder.PlaceholderUtils;
-import me.quickscythe.bac.utils.placeholder.Symbols;
 import me.quickscythe.bac.utils.players.EventPlayer;
 import me.quickscythe.bac.utils.players.PlayerManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -13,20 +12,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
 
-    private static BacPlugin plugin = null;
     private static final PlayerManager playerManager = new PlayerManager();
     private static final HologramManager hologramManager = new HologramManager();
     private static final List<Runnable> palpitations = new ArrayList<>();
-    private static long duration = 24;
     private static final Map<Integer, UUID> rankings = new HashMap<>();
     private static final Map<UUID, Long> cached_times = new HashMap<>();
+    private static BacPlugin plugin = null;
+    private static long duration = 24;
 
 
 //    private static final Map<UUID, Long> playerStorage = new HashMap<>();
@@ -54,11 +52,11 @@ public class Utils {
 
     private static void registerPalpitations() {
         addPalpitation(() -> {
-            for(ClassicHologram holo : getHologramManager().getClassicHolograms()){
+            for (ClassicHologram holo : getHologramManager().getClassicHolograms()) {
                 holo.update();
             }
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+                if (player.getGameMode().equals(GameMode.SURVIVAL) && !player.hasPermission("admin.not_playing")) {
                     long remaining = duration - playerManager.getPlayer(player).getCurrentTime();
                     cached_times.put(player.getUniqueId(), playerManager.getPlayer(player).getCurrentTime());
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&7" + MessageUtils.formatTimeRaw(remaining))));

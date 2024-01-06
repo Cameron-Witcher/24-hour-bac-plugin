@@ -84,8 +84,8 @@ public class HologramManager {
 
                 for (Map.Entry<Integer, String> e : e1.getValue().getLines().entrySet()) {
                     JSONObject line = new JSONObject("{}");
-                    line.put("text",e.getValue());
-                    line.put("line",e.getKey());
+                    line.put("text", e.getValue());
+                    line.put("line", e.getKey());
                     lines.put(line);
                 }
                 holo.put("lines", lines);

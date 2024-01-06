@@ -18,9 +18,9 @@ import java.util.UUID;
 public class PlayerManager {
 
     private final Map<UUID, EventPlayer> playerMap = new HashMap<>();
+    boolean paused = true;
     private JSONObject data = new JSONObject("{}");
     private File playerFile = null;
-    boolean paused = true;
 
     public void init() {
         playerFile = new File(Utils.getPlugin().getDataFolder() + "/players.info");
@@ -52,19 +52,20 @@ public class PlayerManager {
         }
     }
 
-    public void pause(){
+    public void pause() {
         paused = true;
-        for(Player player : Bukkit.getOnlinePlayers()){
-            getPlayer(player).logout();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!player.hasPermission("admin.not_playing")) getPlayer(player).logout();
         }
     }
 
-    public void unpause(){
+    public void unpause() {
         paused = false;
-        for(Player player : Bukkit.getOnlinePlayers())
-            getPlayer(player).login();
+        for (Player player : Bukkit.getOnlinePlayers())
+            if (!player.hasPermission("admin.not_playing")) getPlayer(player).login();
     }
-    public boolean isPaused(){
+
+    public boolean isPaused() {
         return paused;
     }
 

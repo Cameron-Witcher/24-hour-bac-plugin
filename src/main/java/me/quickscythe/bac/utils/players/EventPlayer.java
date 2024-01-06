@@ -46,8 +46,8 @@ public class EventPlayer {
     }
 
     public void login() {
-        if(!Utils.getPlayerManager().isPaused())
-        logintime = new Date().getTime();
+        if (!Utils.getPlayerManager().isPaused())
+            logintime = new Date().getTime();
     }
 
     public void logout() {
@@ -58,7 +58,7 @@ public class EventPlayer {
     public void reset() {
         logintime = 0;
         playtime = 0;
-        if(Bukkit.getPlayer(uid)!=null){
+        if (Bukkit.getPlayer(uid) != null) {
             logintime = new Date().getTime();
         }
 

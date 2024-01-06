@@ -30,7 +30,7 @@ public class AdminCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender.hasPermission("admin.cmd")) {
             if (cmd.getName().equalsIgnoreCase("hologram")) {
-                if(!(sender instanceof Player)){
+                if (!(sender instanceof Player)) {
                     sender.sendMessage(MessageUtils.prefixes("hologram") + "Sorry, you must be a player to run this command.");
                     return true;
                 }
@@ -40,7 +40,7 @@ public class AdminCommands implements CommandExecutor {
                 // /hologram edit <UID> setline <line> <text>
                 // /hologram edit <UID> removeline <line>
 
-                if(args.length == 0){
+                if (args.length == 0) {
 //                    player.sendMessage(MessageUtils);
                     return false;
                 }
@@ -49,17 +49,17 @@ public class AdminCommands implements CommandExecutor {
                         sender.sendMessage("persistent=" + holo.isPersistent() + ": " + holo.getUID());
                     }
                 }
-                if(args[0].equalsIgnoreCase("create")){
+                if (args[0].equalsIgnoreCase("create")) {
                     ClassicHologram holo = Utils.getHologramManager().createClassicHologram(player.getLocation());
                     holo.setPersistent(true);
-                    holo.setLine(0,"Change this with /holo edit " + holo.getUID());
+                    holo.setLine(0, "Change this with /holo edit " + holo.getUID());
                     sender.sendMessage(MessageUtils.prefixes("hologram") + "Created hologram with UID: " + holo.getUID());
                 }
-                if(args[0].equalsIgnoreCase("edit")){
-                    if(args.length < 2){
+                if (args[0].equalsIgnoreCase("edit")) {
+                    if (args.length < 2) {
                         return true;
                     }
-                    if(args.length == 2){
+                    if (args.length == 2) {
                         sender.sendMessage(MessageUtils.prefixes("hologram") + "Here are some commands you can run:");
                         String key = "&f  /" + label + " edit " + args[1] + " ";
                         sender.sendMessage(MessageUtils.colorize(key + "move [(here)|<x> <y> <z>]"));
@@ -68,9 +68,9 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
                     ClassicHologram holo = Utils.getHologramManager().getClassicHologram(args[1]);
-                    if(args[2].equalsIgnoreCase("move")){
+                    if (args[2].equalsIgnoreCase("move")) {
                         Location loc = player.getLocation();
-                        if(args.length > 4){
+                        if (args.length > 4) {
                             loc.setX(Double.parseDouble(args[3]));
                             loc.setY(Double.parseDouble(args[4]));
                             loc.setZ(Double.parseDouble(args[5]));
@@ -78,9 +78,9 @@ public class AdminCommands implements CommandExecutor {
                         holo.move(loc);
                         return true;
                     }
-                    if(args[2].equalsIgnoreCase("setline")){
+                    if (args[2].equalsIgnoreCase("setline")) {
                         String s = "";
-                        for(int i=4;i!=args.length;i++)
+                        for (int i = 4; i != args.length; i++)
                             s = Objects.equals(s, "") ? args[i] : s + " " + args[i];
                         holo.setLine(Integer.parseInt(args[3]), s);
                     }

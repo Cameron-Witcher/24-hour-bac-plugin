@@ -29,9 +29,11 @@ public class Hologram {
     public void setPersistent(boolean persistent) {
         this.persistent = persistent;
     }
+
     public void update() {
 
     }
+
     public void move(Location loc) {
         this.loc = loc;
     }

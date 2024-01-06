@@ -14,11 +14,13 @@ public class ServerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Utils.getPlayerManager().getPlayer(e.getPlayer()).login();
+        if (!e.getPlayer().hasPermission("admin.not_playing"))
+            Utils.getPlayerManager().getPlayer(e.getPlayer()).login();
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent e) {
-        Utils.getPlayerManager().getPlayer(e.getPlayer()).logout();
+        if (!e.getPlayer().hasPermission("admin.not_playing"))
+            Utils.getPlayerManager().getPlayer(e.getPlayer()).logout();
     }
 }
