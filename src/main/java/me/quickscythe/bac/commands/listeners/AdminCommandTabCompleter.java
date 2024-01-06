@@ -22,6 +22,7 @@ public class AdminCommandTabCompleter implements TabCompleter {
         cmds.put("add", new ArrayList<>());
         cmds.put("set", new ArrayList<>());
         cmds.put("get", new ArrayList<>());
+        cmds.put("pause", new ArrayList<>());
         cmds.put("help", new ArrayList<>(cmds.keySet()));
 
 

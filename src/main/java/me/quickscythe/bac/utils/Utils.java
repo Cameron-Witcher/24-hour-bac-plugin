@@ -81,6 +81,7 @@ public class Utils {
         });
     }
 
+
     private static LinkedHashMap<UUID, Long> sortRankings() {
         List<Map.Entry<UUID, Long>> list = new LinkedList<Map.Entry<UUID, Long>>(cached_times.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<UUID, Long>>() {

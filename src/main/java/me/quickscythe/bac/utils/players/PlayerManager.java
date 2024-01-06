@@ -64,6 +64,9 @@ public class PlayerManager {
         for(Player player : Bukkit.getOnlinePlayers())
             getPlayer(player).login();
     }
+    public boolean isPaused(){
+        return paused;
+    }
 
     public void end() {
         data = new JSONObject("{}");

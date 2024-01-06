@@ -96,6 +96,10 @@ public class AdminCommands implements CommandExecutor {
                     sender.sendMessage(MessageUtils.colorize("&f /" + label + " <set|add> <player> <integer>[(h)[ours]|m[inutes]|s[econds]] &7- Sets a player's current play-time (not working yet)"));
                     return true;
                 }
+                if (args[0].equalsIgnoreCase("pause")) {
+                    if (Utils.getPlayerManager().isPaused()) Utils.getPlayerManager().pause();
+                    else Utils.getPlayerManager().unpause();
+                }
                 if (args.length < 2) {
                     sender.sendMessage(MessageUtils.prefixes("playtime") + "Try /" + label + " help");
                     return true;

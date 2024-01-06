@@ -1,5 +1,6 @@
 package me.quickscythe.bac.utils.players;
 
+import me.quickscythe.bac.utils.Utils;
 import org.bukkit.Bukkit;
 
 import java.util.Date;
@@ -45,6 +46,7 @@ public class EventPlayer {
     }
 
     public void login() {
+        if(!Utils.getPlayerManager().isPaused())
         logintime = new Date().getTime();
     }
 
@@ -63,7 +65,8 @@ public class EventPlayer {
     }
 
     public void addPlaytime(long l) {
-        playtime = playtime + l;
+        setPlaytime(getCurrentTime() + l);
+//        playtime = playtime + l;
 
     }
 
