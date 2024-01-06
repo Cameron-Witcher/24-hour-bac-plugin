@@ -88,7 +88,7 @@ public class Utils {
 
     public static void end() {
         playerManager.end();
-
+        hologramManager.end();
     }
 
     public static BacPlugin getPlugin() {

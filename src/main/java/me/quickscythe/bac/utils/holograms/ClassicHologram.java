@@ -63,4 +63,12 @@ public class ClassicHologram extends Hologram {
     }
 
 
+    public void kill() {
+        for (Map.Entry<Integer, String> e : lines.entrySet()) {
+            stands.get(e.getKey()).remove();
+        }
+        lines.clear();
+        stands.clear();
+
+    }
 }

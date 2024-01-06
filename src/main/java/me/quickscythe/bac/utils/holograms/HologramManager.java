@@ -84,6 +84,7 @@ public class HologramManager {
                 }
 
                 holos.put(holo);
+                e.getValue().kill();
             }
         }
         hdata.put("classic_holograms", holos);
