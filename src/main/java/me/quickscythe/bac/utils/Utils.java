@@ -64,12 +64,16 @@ public class Utils {
     }
 
     public static void logout(UUID uid){
-        playerStorage.put(uid, getPlayTime(uid) + (loginTimes.getOrDefault(uid,new Date().getTime()) - new Date().getTime()));
+        playerStorage.put(uid, getPlayTime(uid) + getLoggedInTime(uid));
         loginTimes.remove(uid);
     }
 
+    public static long getLoggedInTime(UUID uid){
+        return loginTimes.getOrDefault(uid,0L) - new Date().getTime();
+    }
+
     public static long getCurrentPlaytime(UUID uid){
-        return getPlayTime(uid) + (loginTimes.containsKey(uid) ? loginTimes.get(uid) - new Date().getTime() : 0);
+        return getPlayTime(uid) + (loginTimes.containsKey(uid) ? getLoggedInTime(uid) : 0);
     }
 
     public static void end(){
@@ -93,7 +97,7 @@ public class Utils {
 
             for(Player player : Bukkit.getOnlinePlayers()){
                 if(player.getGameMode().equals(GameMode.SURVIVAL)){
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&3" + MessageUtils.formatTimeRaw(getCurrentPlaytime(player.getUniqueId())))));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&3" + (getCurrentPlaytime(player.getUniqueId())))));
                 }
             }
 
