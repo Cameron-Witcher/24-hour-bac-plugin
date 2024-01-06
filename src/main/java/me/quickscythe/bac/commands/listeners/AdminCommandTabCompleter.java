@@ -13,11 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameCommandTabCompleter implements TabCompleter {
+public class AdminCommandTabCompleter implements TabCompleter {
 
     Map<String, List<String>> cmds = new HashMap<>();
 
-    public GameCommandTabCompleter() {
+    public AdminCommandTabCompleter() {
         cmds.put("reset", new ArrayList<>());
         cmds.put("add", new ArrayList<>());
         cmds.put("set", new ArrayList<>());
