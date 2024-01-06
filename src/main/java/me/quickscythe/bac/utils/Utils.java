@@ -3,6 +3,7 @@ package me.quickscythe.bac.utils;
 import me.quickscythe.bac.BacPlugin;
 import me.quickscythe.bac.utils.holograms.ClassicHologram;
 import me.quickscythe.bac.utils.holograms.HologramManager;
+import me.quickscythe.bac.utils.placeholder.PlaceholderUtils;
 import me.quickscythe.bac.utils.players.EventPlayer;
 import me.quickscythe.bac.utils.players.PlayerManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -33,6 +34,7 @@ public class Utils {
     public static void init(BacPlugin plugin) {
         Utils.plugin = plugin;
         registerConfig();
+        PlaceholderUtils.registerPlaceholders();
         playerManager.init();
         hologramManager.init();
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
