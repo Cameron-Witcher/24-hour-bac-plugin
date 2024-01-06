@@ -1,6 +1,7 @@
 package me.quickscythe.bac.utils.players;
 
 import me.quickscythe.bac.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.json2.JSONArray;
 import org.json2.JSONObject;
@@ -19,6 +20,7 @@ public class PlayerManager {
     private final Map<UUID, EventPlayer> playerMap = new HashMap<>();
     private JSONObject data = new JSONObject("{}");
     private File playerFile = null;
+    boolean paused = true;
 
     public void init() {
         playerFile = new File(Utils.getPlugin().getDataFolder() + "/players.info");
@@ -48,6 +50,19 @@ public class PlayerManager {
                 Utils.cacheTime(player);
             }
         }
+    }
+
+    public void pause(){
+        paused = true;
+        for(Player player : Bukkit.getOnlinePlayers()){
+            getPlayer(player).logout();
+        }
+    }
+
+    public void unpause(){
+        paused = false;
+        for(Player player : Bukkit.getOnlinePlayers())
+            getPlayer(player).login();
     }
 
     public void end() {

@@ -4,6 +4,7 @@ import me.quickscythe.bac.BacPlugin;
 import me.quickscythe.bac.utils.holograms.ClassicHologram;
 import me.quickscythe.bac.utils.holograms.HologramManager;
 import me.quickscythe.bac.utils.placeholder.PlaceholderUtils;
+import me.quickscythe.bac.utils.placeholder.Symbols;
 import me.quickscythe.bac.utils.players.EventPlayer;
 import me.quickscythe.bac.utils.players.PlayerManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.*;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -38,12 +40,14 @@ public class Utils {
         playerManager.init();
         hologramManager.init();
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
+
         registerPalpitations();
+
     }
 
     private static void registerConfig() {
         if (!plugin.getConfig().isSet("max_time")) {
-            plugin.getConfig().set("max_time", duration);
+            plugin.getConfig().set("max_time", "24h");
         } else duration = convertTime(plugin.getConfig().getString("max_time"));
         plugin.saveConfig();
     }
@@ -69,7 +73,7 @@ public class Utils {
             @Override
             public void run() {
                 now = new Date().getTime();
-                if (now - last_check >= TimeUnit.MILLISECONDS.convert(90, TimeUnit.SECONDS)) {
+                if (now - last_check >= TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS)) {
                     last_check = now;
                     sortRankings();
                 }

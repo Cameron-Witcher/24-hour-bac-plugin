@@ -1,5 +1,7 @@
 package me.quickscythe.bac.utils.players;
 
+import org.bukkit.Bukkit;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -54,6 +56,9 @@ public class EventPlayer {
     public void reset() {
         logintime = 0;
         playtime = 0;
+        if(Bukkit.getPlayer(uid)!=null){
+            logintime = new Date().getTime();
+        }
 
     }
 
