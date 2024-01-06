@@ -64,12 +64,12 @@ public class Utils {
     }
 
     public static void logout(UUID uid){
-        playerStorage.put(uid, getPlayTime(uid) + loginTimes.getOrDefault(uid,new Date().getTime()));
+        playerStorage.put(uid, getPlayTime(uid) + (loginTimes.getOrDefault(uid,new Date().getTime()) - new Date().getTime()));
         loginTimes.remove(uid);
     }
 
     public static long getCurrentPlaytime(UUID uid){
-        return getPlayTime(uid) + (loginTimes.containsKey(uid) ? loginTimes.get(uid) : 0);
+        return getPlayTime(uid) + (loginTimes.containsKey(uid) ? loginTimes.get(uid) - new Date().getTime() : 0);
     }
 
     public static void end(){
