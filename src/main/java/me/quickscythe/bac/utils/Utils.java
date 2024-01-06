@@ -97,6 +97,8 @@ public class Utils {
                 }
             }
 
+            Bukkit.getScheduler().runTaskLaterAsynchronously(plugin,this,1);
+
         }
     }
 }
