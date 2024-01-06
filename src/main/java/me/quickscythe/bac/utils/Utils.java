@@ -97,9 +97,9 @@ public class Utils {
 
             for(Player player : Bukkit.getOnlinePlayers()){
                 if(player.getGameMode().equals(GameMode.SURVIVAL)){
-                    long remaining = TimeUnit.HOURS.convert(plugin.getConfig().getLong("max_time"),TimeUnit.MILLISECONDS) - getCurrentPlaytime(player.getUniqueId());
+                    long remaining = TimeUnit.MILLISECONDS.convert(plugin.getConfig().getLong("max_time"),TimeUnit.HOURS) - getCurrentPlaytime(player.getUniqueId());
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&3" + MessageUtils.formatTimeRaw(remaining))));
-                    if(remaining >= 0)
+                    if(remaining <= 0)
                         player.setGameMode(GameMode.SPECTATOR);
                 }
             }
