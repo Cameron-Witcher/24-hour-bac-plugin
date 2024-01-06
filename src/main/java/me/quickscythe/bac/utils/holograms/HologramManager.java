@@ -75,17 +75,22 @@ public class HologramManager {
     public void end() {
         hdata = new JSONObject("{}");
         JSONArray holos = new JSONArray();
-        for (Map.Entry<UID, ClassicHologram> e : classicHolograms.entrySet()) {
-            if (e.getValue().isPersistent()) {
+        for (Map.Entry<UID, ClassicHologram> e1 : classicHolograms.entrySet()) {
+            if (e1.getValue().isPersistent()) {
                 JSONObject holo = new JSONObject("{}");
-                holo.put("location", Utils.encryptLocation(e.getValue().getLocation()));
-                holo.put("lines", new JSONArray());
-                for (Map.Entry<Integer, String> line : e.getValue().getLines().entrySet()) {
-                    holo.getJSONArray("lines").put(new JSONObject("{}").put("text", e.getValue()).put("line", e.getKey()));
+                holo.put("location", Utils.encryptLocation(e1.getValue().getLocation()));
+                JSONArray lines = new JSONArray();
+
+                for (Map.Entry<Integer, String> e : e1.getValue().getLines().entrySet()) {
+                    JSONObject line = new JSONObject("{}");
+                    line.put("text",e.getValue());
+                    line.put("line",e.getKey());
+                    lines.put(line);
                 }
+                holo.put("lines", lines);
 
                 holos.put(holo);
-                e.getValue().kill();
+                e1.getValue().kill();
                 Bukkit.broadcastMessage(holo.toString());
             }
         }
