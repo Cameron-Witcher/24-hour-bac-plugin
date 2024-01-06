@@ -69,11 +69,11 @@ public class Utils {
     }
 
     public static long getLoggedInTime(UUID uid){
-        return loginTimes.getOrDefault(uid,0L) - new Date().getTime();
+        return loginTimes.containsKey(uid) ? loginTimes.get(uid) - new Date().getTime() : 0;
     }
 
     public static long getCurrentPlaytime(UUID uid){
-        return getPlayTime(uid) + (loginTimes.containsKey(uid) ? getLoggedInTime(uid) : 0);
+        return getPlayTime(uid) + getLoggedInTime(uid);
     }
 
     public static void end(){
