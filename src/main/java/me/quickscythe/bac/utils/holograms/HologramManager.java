@@ -81,7 +81,7 @@ public class HologramManager {
                 holo.put("location", Utils.encryptLocation(e.getValue().getLocation()));
                 holo.put("lines", new JSONArray());
                 for (Map.Entry<Integer, String> line : e.getValue().getLines().entrySet()) {
-                    holo.getJSONArray("lines").put(new JSONObject().put("text", e.getValue()).put("line", e.getKey()));
+                    holo.getJSONArray("lines").put(new JSONObject("{}").put("text", e.getValue()).put("line", e.getKey()));
                 }
 
                 holos.put(holo);
