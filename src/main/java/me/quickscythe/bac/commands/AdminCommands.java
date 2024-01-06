@@ -5,7 +5,6 @@ import me.quickscythe.bac.commands.listeners.AdminCommandTabCompleter;
 import me.quickscythe.bac.utils.MessageUtils;
 import me.quickscythe.bac.utils.Utils;
 import me.quickscythe.bac.utils.holograms.ClassicHologram;
-import me.quickscythe.bac.utils.misc.UID;
 import me.quickscythe.bac.utils.players.EventPlayer;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -68,7 +67,7 @@ public class AdminCommands implements CommandExecutor {
                         sender.sendMessage(MessageUtils.colorize(key + "removeline <line>"));
                         return true;
                     }
-                    ClassicHologram holo = Utils.getHologramManager().getClassicHologram(UID.from(args[1]));
+                    ClassicHologram holo = Utils.getHologramManager().getClassicHologram(args[1]);
                     if(args[2].equalsIgnoreCase("move")){
                         Location loc = player.getLocation();
                         if(args.length > 4){

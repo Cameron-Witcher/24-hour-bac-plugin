@@ -18,8 +18,8 @@ import java.util.Scanner;
 
 public class HologramManager {
 
-    private final Map<UID, Hologram> holograms = new HashMap<>();
-    private final Map<UID, ClassicHologram> classicHolograms = new HashMap<>();
+    private final Map<String, Hologram> holograms = new HashMap<>();
+    private final Map<String, ClassicHologram> classicHolograms = new HashMap<>();
     private JSONObject hdata = new JSONObject("{}");
     private File hologramFile = null;
 
@@ -54,21 +54,21 @@ public class HologramManager {
 
     public Hologram createHologram(Location loc) {
         Hologram holo = new Hologram(new UID(), loc);
-        holograms.put(holo.getUID(), holo);
+        holograms.put(holo.getUID().toString(), holo);
         return holo;
     }
 
-    public Hologram getHologram(UID uid) {
+    public Hologram getHologram(String uid) {
         return holograms.get(uid);
     }
 
     public ClassicHologram createClassicHologram(Location loc) {
         ClassicHologram holo = new ClassicHologram(new UID(), loc);
-        classicHolograms.put(holo.getUID(), holo);
+        classicHolograms.put(holo.getUID().toString(), holo);
         return holo;
     }
 
-    public ClassicHologram getClassicHologram(UID uid) {
+    public ClassicHologram getClassicHologram(String uid) {
         return classicHolograms.get(uid);
     }
 
@@ -76,7 +76,7 @@ public class HologramManager {
     public void end() {
         hdata = new JSONObject("{}");
         JSONArray holos = new JSONArray();
-        for (Map.Entry<UID, ClassicHologram> e1 : classicHolograms.entrySet()) {
+        for (Map.Entry<String, ClassicHologram> e1 : classicHolograms.entrySet()) {
             if (e1.getValue().isPersistent()) {
                 JSONObject holo = new JSONObject("{}");
                 holo.put("location", Utils.encryptLocation(e1.getValue().getLocation()));
