@@ -35,6 +35,13 @@ public class EventPlayer {
         return playtime;
     }
 
+    public void setPlaytime(long l) {
+        playtime = l;
+        if (logintime != 0) {
+            logintime = new Date().getTime();
+        }
+    }
+
     public void login() {
         logintime = new Date().getTime();
     }
@@ -48,13 +55,6 @@ public class EventPlayer {
         logintime = 0;
         playtime = 0;
 
-    }
-
-    public void setPlaytime(long l) {
-        playtime = l;
-        if (logintime != 0) {
-            logintime = new Date().getTime();
-        }
     }
 
     public void addPlaytime(long l) {

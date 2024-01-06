@@ -15,7 +15,7 @@ public class BacPlugin extends JavaPlugin {
 
         new ServerListener(this);
 
-        new AdminCommands(this, "playtime");
+        new AdminCommands(this, "playtime", "hologram");
 
         Utils.init(this);
 

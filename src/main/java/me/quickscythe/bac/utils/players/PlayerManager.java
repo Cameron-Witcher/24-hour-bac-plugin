@@ -38,7 +38,7 @@ public class PlayerManager {
             throw new RuntimeException(ex);
         }
 
-        if(data.has("players")) {
+        if (data.has("players")) {
             JSONArray players = data.getJSONArray("players");
             for (int i = 0; i < players.length(); i++) {
                 JSONObject playerData = players.getJSONObject(i);
@@ -52,7 +52,7 @@ public class PlayerManager {
     public void end() {
         data = new JSONObject("{}");
         JSONArray players = new JSONArray();
-        for(Map.Entry<UUID, EventPlayer> e : playerMap.entrySet()){
+        for (Map.Entry<UUID, EventPlayer> e : playerMap.entrySet()) {
             JSONObject player = new JSONObject("{}");
             player.put("uuid", e.getKey());
             player.put("username", e.getValue().getUsername());
@@ -62,10 +62,9 @@ public class PlayerManager {
         data.put("players", players);
 
 
-
         try {
 
-            FileWriter f2 = new FileWriter(playerFile,false); // important part
+            FileWriter f2 = new FileWriter(playerFile, false); // important part
             f2.write(data.toString());
             f2.close();
         } catch (IOException e) {
@@ -74,7 +73,7 @@ public class PlayerManager {
     }
 
     public EventPlayer getPlayer(Player player) {
-        if(!playerMap.containsKey(player.getUniqueId()))
+        if (!playerMap.containsKey(player.getUniqueId()))
             playerMap.put(player.getUniqueId(), new EventPlayer(player.getName(), player.getUniqueId()));
         return playerMap.get(player.getUniqueId());
     }
@@ -83,9 +82,9 @@ public class PlayerManager {
         return playerMap.getOrDefault(uid, null);
     }
 
-    public EventPlayer searchPlayer(String name){
-        for(EventPlayer player : playerMap.values()){
-            if(player.getUsername().equalsIgnoreCase(name)){
+    public EventPlayer searchPlayer(String name) {
+        for (EventPlayer player : playerMap.values()) {
+            if (player.getUsername().equalsIgnoreCase(name)) {
                 return player;
             }
         }

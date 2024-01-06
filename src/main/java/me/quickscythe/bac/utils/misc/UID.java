@@ -94,7 +94,10 @@ public class UID {
          * All uppwer-case, lower-case, and numbers combined.
          */
         public static final String alphanum = upper + lower + digit;
-
+        /*
+         * Default symbols.
+         */
+        private static final String s = alphanum;
         /*
          * Default length.
          */
@@ -103,11 +106,6 @@ public class UID {
          * Default random object.
          */
         private static final Random r = new SecureRandom();
-        /*
-         * Default symbols.
-         */
-        private static final String s = alphanum;
-
         private final Random random;
         private final char[] symbols;
         private final char[] buf;
@@ -116,9 +114,9 @@ public class UID {
          * Creates a new RandomString object.
          */
         public RandomString(int length, Random random, String symbols) {
-            if(length <1)
+            if (length < 1)
                 throw new IllegalArgumentException();
-            if(symbols.length() < 2)
+            if (symbols.length() < 2)
                 throw new IllegalArgumentException();
 
             this.random = Objects.requireNonNull(random);
@@ -158,7 +156,7 @@ public class UID {
          * Generates a random string based on the specified values of the constructor.
          */
         public String nextString() {
-            for(int idx = 0; idx < buf.length; idx++)
+            for (int idx = 0; idx < buf.length; idx++)
                 buf[idx] = symbols[random.nextInt(symbols.length)];
             return new String(buf);
         }

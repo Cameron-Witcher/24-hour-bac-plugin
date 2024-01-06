@@ -73,7 +73,7 @@ public class PlaceholderUtils {
     @FunctionalInterface
     public interface PlaceholderWorker {
 
-        public abstract String run(Player player);
+        String run(Player player);
 
     }
 

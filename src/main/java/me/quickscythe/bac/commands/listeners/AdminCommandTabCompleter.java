@@ -34,7 +34,7 @@ public class AdminCommandTabCompleter implements TabCompleter {
             if (args.length == 1)
                 StringUtil.copyPartialMatches(args[0], new ArrayList<>(cmds.keySet()), completions);
 
-            if(args.length == 2)
+            if (args.length == 2)
                 StringUtil.copyPartialMatches(args[1], getOnlinePlayers(), completions);
 
         }

@@ -9,11 +9,10 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class MessageUtils {
 
-    private static Map<String, String> prefixes = new HashMap<>();
+    private static final Map<String, String> prefixes = new HashMap<>();
 
 
     public static String colorize(String message) {
@@ -22,7 +21,7 @@ public class MessageUtils {
 
     public static String prefixes(String key) {
         if (prefixes.get(key) == null)
-            prefixes.put(key, colorize("&e&l" + key.toUpperCase().substring(0, 1) + key.toLowerCase().substring(1, key.length()) + " &7>&f "));
+            prefixes.put(key, colorize("&e&l" + key.toUpperCase().charAt(0) + key.toLowerCase().substring(1, key.length()) + " &7>&f "));
         return prefixes.get(key);
     }
 
@@ -92,7 +91,7 @@ public class MessageUtils {
             return ncolor + sec + tcolor + " " + (sec == 1 ? "second" : "seconds");
         }
 
-        return ncolor + "less than a second" + tcolor + "";
+        return ncolor + "less than a second" + tcolor;
     }
 
     public static String formatDateRaw(long ms) {

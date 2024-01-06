@@ -14,3 +14,7 @@ commands:
       - ptime
       - playt
       - plt
+  hologram:
+    usage: /hologram create
+    aliases:
+      - holo
