@@ -61,4 +61,8 @@ public class EventPlayer {
         playtime = playtime + l;
 
     }
+
+    public UUID getUUID() {
+        return uid;
+    }
 }

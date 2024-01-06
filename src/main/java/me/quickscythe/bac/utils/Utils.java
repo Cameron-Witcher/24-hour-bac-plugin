@@ -2,6 +2,7 @@ package me.quickscythe.bac.utils;
 
 import me.quickscythe.bac.BacPlugin;
 import me.quickscythe.bac.utils.holograms.HologramManager;
+import me.quickscythe.bac.utils.players.EventPlayer;
 import me.quickscythe.bac.utils.players.PlayerManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,8 +11,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
@@ -21,6 +21,8 @@ public class Utils {
     private static final HologramManager hologramManager = new HologramManager();
     private static final List<Runnable> palpitations = new ArrayList<>();
     private static long duration = 24;
+    private static final Map<Integer, UUID> rankings = new HashMap<>();
+    private static final Map<UUID, Long> cached_times = new HashMap<>();
 
 
 //    private static final Map<UUID, Long> playerStorage = new HashMap<>();
@@ -48,11 +50,48 @@ public class Utils {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getGameMode().equals(GameMode.SURVIVAL)) {
                     long remaining = duration - playerManager.getPlayer(player).getCurrentTime();
+                    cached_times.put(player.getUniqueId(), playerManager.getPlayer(player).getCurrentTime());
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&7" + MessageUtils.formatTimeRaw(remaining))));
                     if (remaining <= 0) player.setGameMode(GameMode.SPECTATOR);
                 }
             }
         });
+        addPalpitation(new Runnable() {
+            long last_check = 0;
+            long now = new Date().getTime();
+
+            @Override
+            public void run() {
+                now = new Date().getTime();
+                if (now - last_check >= TimeUnit.MILLISECONDS.convert(90, TimeUnit.SECONDS)) {
+                    last_check = now;
+                    sortRankings();
+                }
+            }
+        });
+    }
+
+    private static LinkedHashMap<UUID, Long> sortRankings() {
+        List<Map.Entry<UUID, Long>> list = new LinkedList<Map.Entry<UUID, Long>>(cached_times.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<UUID, Long>>() {
+
+            @Override
+            public int compare(Map.Entry<UUID, Long> o1, Map.Entry<UUID, Long> o2) {
+                // TODO Auto-generated method stub
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        LinkedHashMap<UUID, Long> temp = new LinkedHashMap<>();
+        int i = 1;
+        for (Map.Entry<UUID, Long> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+            rankings.put(i, aa.getKey());
+            i = i + 1;
+        }
+
+        return temp;
+
     }
 
     public static HologramManager getHologramManager() {
@@ -121,6 +160,18 @@ public class Utils {
 
     public static List<Runnable> getPalpitations() {
         return palpitations;
+    }
+
+    public static void cacheTime(EventPlayer player) {
+        cached_times.put(player.getUUID(), player.getCurrentTime());
+    }
+
+    public static UUID getRankings(int rank) {
+        return rankings.get(rank);
+    }
+
+    public static long getCachedTime(UUID uid) {
+        return cached_times.get(uid);
     }
 
     private static class Heartbeat implements Runnable {

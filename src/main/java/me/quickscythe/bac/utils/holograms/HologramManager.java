@@ -47,6 +47,7 @@ public class HologramManager {
                 JSONObject holoData = holos.getJSONObject(i);
                 ClassicHologram holo = createClassicHologram(Utils.decryptLocation(holoData.getString("location")));
                 holo.setLines(holoData.getJSONArray("lines"));
+                holo.setPersistent(true);
             }
         }
     }

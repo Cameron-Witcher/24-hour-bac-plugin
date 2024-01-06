@@ -45,6 +45,7 @@ public class PlayerManager {
                 UUID uid = UUID.fromString(playerData.getString("uuid"));
                 EventPlayer player = new EventPlayer(playerData.getString("username"), uid, playerData.getLong("current_time"));
                 playerMap.put(uid, player);
+                Utils.cacheTime(player);
             }
         }
     }
