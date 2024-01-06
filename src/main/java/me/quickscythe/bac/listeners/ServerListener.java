@@ -15,6 +15,7 @@ public class ServerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Utils.login(e.getPlayer().getUniqueId());
+        Utils.saveUUID(e.getPlayer());
     }
 
     @EventHandler

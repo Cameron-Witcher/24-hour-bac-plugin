@@ -8,8 +8,6 @@ import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,15 +16,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class Utils {
 
     private static BacPlugin plugin = null;
-    private static FileConfiguration fileConfiguration = null;
+    private static FileConfiguration playerConfig = null;
     private static File playerFile = null;
     private static final Map<UUID, Long> playerStorage = new HashMap<>();
     private static final Map<UUID, Long> loginTimes = new HashMap<>();
+    private static final Map<String, UUID> uuids = new HashMap<>();
 
     public static void init(BacPlugin plugin){
         Utils.plugin = plugin;
@@ -43,16 +41,41 @@ public class Utils {
                 throw new RuntimeException(e);
             }
         }
-        fileConfiguration = YamlConfiguration.loadConfiguration(playerFile);
+        playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
+    }
+
+    public static UUID getUUID(String playerName){
+        if(uuids.containsKey(playerName))return uuids.get(playerName);
+        for(String k : playerConfig.getConfigurationSection("players").getKeys(false)){
+            if(playerConfig.getString("players." + k + ".last_username").equalsIgnoreCase(playerName)){
+                uuids.put(playerName, UUID.fromString(k));
+                return getUUID(playerName);
+            }
+
+        }
+        return null;
+    }
+    public static void saveUUID(Player player){
+        if(uuids.containsValue(player.getUniqueId())){
+            String old_name = "";
+            for(Map.Entry<String, UUID> e : uuids.entrySet()){
+                if(e.getValue().equals(player.getUniqueId())){
+                    old_name = e.getKey();
+                    break;
+                }
+            }
+            uuids.remove(old_name);
+        }
+        uuids.put(player.getName(), player.getUniqueId());
     }
 
     public static long getPlayTime(UUID uid){
         if(playerStorage.containsKey(uid))
             return playerStorage.get(uid);
-        if(fileConfiguration.isSet("players." + uid.toString())){
-            playerStorage.put(uid, fileConfiguration.getLong("players." + uid.toString()));
+        if(playerConfig.isSet("players." + uid.toString() + ".time")){
+            playerStorage.put(uid, playerConfig.getLong("players." + uid.toString() + ".time"));
             return getPlayTime(uid);
         }
         playerStorage.put(uid, 0L);
@@ -69,7 +92,7 @@ public class Utils {
     }
 
     public static long getLoggedInTime(UUID uid){
-        return loginTimes.containsKey(uid) ? new Date().getTime() - loginTimes.get(uid) : 0;
+        return loginTimes.containsKey(uid) ? new Date().getTime() - loginTimes.get(uid) : 0L;
     }
 
     public static long getCurrentPlaytime(UUID uid){
@@ -78,17 +101,38 @@ public class Utils {
 
     public static void end(){
         for(Map.Entry<UUID, Long> e : playerStorage.entrySet()){
-            fileConfiguration.set("players." + e.getKey().toString(), e.getValue());
+            playerConfig.set("players." + e.getKey().toString() + ".time", e.getValue());
         }
-        try {
-            fileConfiguration.save(playerFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        for(Map.Entry<String, UUID> e : uuids.entrySet()){
+            playerConfig.set("players." + e.getValue().toString() + ".last_username", e.getKey());
         }
+       savePlayerConfig();
     }
 
     public static BacPlugin getPlugin() {
         return plugin;
+    }
+
+    public static void resetPlaytime(UUID uid) {
+        playerStorage.put(uid,0L);
+        playerConfig.set("players." + uid.toString() + ".time", 0L);
+        if(Bukkit.getPlayer(uid)!= null){
+            Player player = Bukkit.getPlayer(uid);
+            if(loginTimes.containsKey(uid))
+                loginTimes.put(uid, new Date().getTime());
+            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+            player.setGameMode(GameMode.SURVIVAL);
+            player.setHealth(player.getHealthScale());
+        }
+        savePlayerConfig();
+    }
+
+    private static void savePlayerConfig() {
+        try {
+            playerConfig.save(playerFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static class Heartbeat implements Runnable {
@@ -98,13 +142,13 @@ public class Utils {
             for(Player player : Bukkit.getOnlinePlayers()){
                 if(player.getGameMode().equals(GameMode.SURVIVAL)){
                     long remaining = TimeUnit.MILLISECONDS.convert(plugin.getConfig().getLong("max_time"),TimeUnit.HOURS) - getCurrentPlaytime(player.getUniqueId());
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&3" + MessageUtils.formatTimeRaw(remaining))));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&7" + MessageUtils.formatTimeRaw(remaining))));
                     if(remaining <= 0)
                         player.setGameMode(GameMode.SPECTATOR);
                 }
             }
 
-            Bukkit.getScheduler().runTaskLaterAsynchronously(plugin,this,1);
+            Bukkit.getScheduler().runTaskLater(plugin,this,1);
 
         }
     }

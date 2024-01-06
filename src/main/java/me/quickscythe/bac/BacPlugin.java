@@ -1,6 +1,7 @@
 package me.quickscythe.bac;
 
 
+import me.quickscythe.bac.commands.AdminCommands;
 import me.quickscythe.bac.listeners.ServerListener;
 import me.quickscythe.bac.utils.Utils;
 import org.bukkit.Bukkit;
@@ -13,6 +14,8 @@ public class BacPlugin extends JavaPlugin {
 
 
         new ServerListener(this);
+
+        new AdminCommands(this, "playtime");
 
         Utils.init(this);
 

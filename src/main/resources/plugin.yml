@@ -5,3 +5,12 @@ description: Limit BAC to 23 hours per player.
 api-version: 1.20
 api: Spigot
 main: me.quickscythe.bac.BacPlugin
+commands:
+  playtime:
+    usage: /playtime help
+    description: Main command
+    aliases:
+      - pt
+      - ptime
+      - playt
+      - plt
