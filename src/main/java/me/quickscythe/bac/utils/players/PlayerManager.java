@@ -38,12 +38,14 @@ public class PlayerManager {
             throw new RuntimeException(ex);
         }
 
-        JSONArray players = data.getJSONArray("players");
-        for (int i = 0; i < players.length(); i++) {
-            JSONObject playerData = players.getJSONObject(i);
-            UUID uid = UUID.fromString(playerData.getString("uuid"));
-            EventPlayer player = new EventPlayer(playerData.getString("username"), uid, playerData.getLong("current_time"));
-            playerMap.put(uid, player);
+        if(data.has("players")) {
+            JSONArray players = data.getJSONArray("players");
+            for (int i = 0; i < players.length(); i++) {
+                JSONObject playerData = players.getJSONObject(i);
+                UUID uid = UUID.fromString(playerData.getString("uuid"));
+                EventPlayer player = new EventPlayer(playerData.getString("username"), uid, playerData.getLong("current_time"));
+                playerMap.put(uid, player);
+            }
         }
     }
 
