@@ -14,12 +14,11 @@ public class ServerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Utils.login(e.getPlayer().getUniqueId());
-        Utils.saveUUID(e.getPlayer());
+        Utils.getPlayerManager().getPlayer(e.getPlayer()).login();
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent e) {
-       Utils.logout(e.getPlayer().getUniqueId());
+        Utils.getPlayerManager().getPlayer(e.getPlayer()).logout();
     }
 }
