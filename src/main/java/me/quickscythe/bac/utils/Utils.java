@@ -69,7 +69,7 @@ public class Utils {
     }
 
     public static long getLoggedInTime(UUID uid){
-        return loginTimes.containsKey(uid) ? loginTimes.get(uid) - new Date().getTime() : 0;
+        return loginTimes.containsKey(uid) ? new Date().getTime() - loginTimes.get(uid) : 0;
     }
 
     public static long getCurrentPlaytime(UUID uid){
