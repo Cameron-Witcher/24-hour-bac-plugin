@@ -2,6 +2,7 @@ package me.quickscythe.bac.utils.holograms;
 
 import me.quickscythe.bac.utils.Utils;
 import me.quickscythe.bac.utils.misc.UID;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.json2.JSONArray;
 import org.json2.JSONObject;
@@ -85,6 +86,7 @@ public class HologramManager {
 
                 holos.put(holo);
                 e.getValue().kill();
+                Bukkit.broadcastMessage(holo.toString());
             }
         }
         hdata.put("classic_holograms", holos);
