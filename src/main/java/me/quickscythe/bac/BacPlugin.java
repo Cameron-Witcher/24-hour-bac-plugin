@@ -22,14 +22,14 @@ public class BacPlugin extends JavaPlugin {
 
         //For reloads
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Utils.login(player.getUniqueId());
+            Utils.getPlayerManager().getPlayer(player).login();
         }
     }
 
     public void onDisable() {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Utils.logout(player.getUniqueId());
+            Utils.getPlayerManager().getPlayer(player).logout();
         }
         Utils.end();
     }
