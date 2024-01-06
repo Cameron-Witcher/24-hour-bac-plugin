@@ -5,7 +5,6 @@ import me.quickscythe.bac.commands.listeners.AdminCommandTabCompleter;
 import me.quickscythe.bac.utils.MessageUtils;
 import me.quickscythe.bac.utils.Utils;
 import me.quickscythe.bac.utils.holograms.ClassicHologram;
-import me.quickscythe.bac.utils.holograms.HologramManager;
 import me.quickscythe.bac.utils.misc.UID;
 import me.quickscythe.bac.utils.players.EventPlayer;
 import org.bukkit.Location;
@@ -45,6 +44,11 @@ public class AdminCommands implements CommandExecutor {
                 if(args.length == 0){
 //                    player.sendMessage(MessageUtils);
                     return false;
+                }
+                if (args[0].equalsIgnoreCase("list")) {
+                    for (ClassicHologram holo : Utils.getHologramManager().getClassicHolograms()) {
+                        sender.sendMessage("persistent=" + holo.isPersistent() + ": " + holo.getUID());
+                    }
                 }
                 if(args[0].equalsIgnoreCase("create")){
                     ClassicHologram holo = Utils.getHologramManager().createClassicHologram(player.getLocation());
