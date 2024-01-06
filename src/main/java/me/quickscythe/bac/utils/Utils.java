@@ -52,7 +52,7 @@ public class Utils {
         if(playerStorage.containsKey(uid))
             return playerStorage.get(uid);
         if(fileConfiguration.isSet("players." + uid.toString())){
-            playerStorage.put(uid, fileConfiguration.getLong("player." + uid.toString()));
+            playerStorage.put(uid, fileConfiguration.getLong("players." + uid.toString()));
             return getPlayTime(uid);
         }
         playerStorage.put(uid, 0L);
