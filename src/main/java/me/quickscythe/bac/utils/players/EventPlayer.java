@@ -23,15 +23,15 @@ public class EventPlayer {
         return username;
     }
 
-    public long getCurrentTime(){
+    public long getCurrentTime() {
         return getPlaytime() + getLoginTime();
     }
 
     public long getLoginTime() {
-        return logintime == 0 ? (new Date().getTime() - logintime) : 0;
+        return logintime != 0 ? (new Date().getTime() - logintime) : 0;
     }
 
-    public long getPlaytime(){
+    public long getPlaytime() {
         return playtime;
     }
 
@@ -39,7 +39,7 @@ public class EventPlayer {
         logintime = new Date().getTime();
     }
 
-    public void logout(){
+    public void logout() {
         playtime = getCurrentTime();
         logintime = 0;
     }
@@ -52,10 +52,11 @@ public class EventPlayer {
 
     public void setPlaytime(long l) {
         playtime = l;
-        if(logintime != 0){
+        if (logintime != 0) {
             logintime = new Date().getTime();
         }
     }
+
     public void addPlaytime(long l) {
         playtime = playtime + l;
 
