@@ -1,6 +1,7 @@
 package me.quickscythe.bac.utils;
 
 import me.quickscythe.bac.BacPlugin;
+import me.quickscythe.bac.utils.holograms.ClassicHologram;
 import me.quickscythe.bac.utils.holograms.HologramManager;
 import me.quickscythe.bac.utils.players.EventPlayer;
 import me.quickscythe.bac.utils.players.PlayerManager;
@@ -47,6 +48,9 @@ public class Utils {
 
     private static void registerPalpitations() {
         addPalpitation(() -> {
+            for(ClassicHologram holo : getHologramManager().getClassicHolograms()){
+                holo.update();
+            }
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getGameMode().equals(GameMode.SURVIVAL)) {
                     long remaining = duration - playerManager.getPlayer(player).getCurrentTime();
