@@ -18,7 +18,7 @@ import java.util.UUID;
 public class PlayerManager {
 
     private final Map<UUID, EventPlayer> playerMap = new HashMap<>();
-    boolean paused = true;
+    boolean paused = false;
     private JSONObject data = new JSONObject("{}");
     private File playerFile = null;
 
