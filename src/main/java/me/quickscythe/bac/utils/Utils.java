@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class Utils {
@@ -29,6 +30,10 @@ public class Utils {
 
     public static void init(BacPlugin plugin){
         Utils.plugin = plugin;
+        if(!plugin.getConfig().isSet("max_time")){
+            plugin.getConfig().set("max_time", 24);
+        }
+        plugin.saveConfig();
         playerFile = new File(plugin.getDataFolder() + "/players.yml");
         if(!playerFile.exists()) {
             try {
