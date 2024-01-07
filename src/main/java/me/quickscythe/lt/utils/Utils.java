@@ -1,11 +1,11 @@
-package me.quickscythe.bac.utils;
+package me.quickscythe.lt.utils;
 
-import me.quickscythe.bac.BacPlugin;
-import me.quickscythe.bac.utils.holograms.ClassicHologram;
-import me.quickscythe.bac.utils.holograms.HologramManager;
-import me.quickscythe.bac.utils.placeholder.PlaceholderUtils;
-import me.quickscythe.bac.utils.players.EventPlayer;
-import me.quickscythe.bac.utils.players.PlayerManager;
+import me.quickscythe.lt.LimitedTime;
+import me.quickscythe.lt.utils.holograms.ClassicHologram;
+import me.quickscythe.lt.utils.holograms.HologramManager;
+import me.quickscythe.lt.utils.placeholder.PlaceholderUtils;
+import me.quickscythe.lt.utils.players.EventPlayer;
+import me.quickscythe.lt.utils.players.PlayerManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ public class Utils {
     private static final List<Runnable> palpitations = new ArrayList<>();
     private static final Map<Integer, UUID> rankings = new HashMap<>();
     private static final Map<UUID, Long> cached_times = new HashMap<>();
-    private static BacPlugin plugin = null;
+    private static LimitedTime plugin = null;
     private static long duration = 24;
 
 
@@ -31,7 +31,7 @@ public class Utils {
 //    private static final Map<UUID, Long> loginTimes = new HashMap<>();
 //    private static final Map<String, UUID> uuids = new HashMap<>();
 
-    public static void init(BacPlugin plugin) {
+    public static void init(LimitedTime plugin) {
         Utils.plugin = plugin;
         registerConfig();
         PlaceholderUtils.registerPlaceholders();
@@ -139,7 +139,7 @@ public class Utils {
         hologramManager.end();
     }
 
-    public static BacPlugin getPlugin() {
+    public static LimitedTime getPlugin() {
         return plugin;
     }
 

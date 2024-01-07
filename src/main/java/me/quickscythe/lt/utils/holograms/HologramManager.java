@@ -1,7 +1,7 @@
-package me.quickscythe.bac.utils.holograms;
+package me.quickscythe.lt.utils.holograms;
 
-import me.quickscythe.bac.utils.Utils;
-import me.quickscythe.bac.utils.misc.UID;
+import me.quickscythe.lt.utils.Utils;
+import me.quickscythe.lt.utils.misc.UID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.json2.JSONArray;
@@ -45,9 +45,15 @@ public class HologramManager {
             JSONArray holos = hdata.getJSONArray("classic_holograms");
             for (int i = 0; i < holos.length(); i++) {
                 JSONObject holoData = holos.getJSONObject(i);
-                ClassicHologram holo = createClassicHologram(Utils.decryptLocation(holoData.getString("location")));
+                ClassicHologram holo;
+                Location loc = Utils.decryptLocation(holoData.getString("location"));
+                if (holoData.has("uid")) {
+                    holo = new ClassicHologram(UID.from(holoData.getString("uid")), loc);
+                    classicHolograms.put(holo.getUID().toString(), holo);
+                } else holo = createClassicHologram(loc);
                 holo.setLines(holoData.getJSONArray("lines"));
                 holo.setPersistent(true);
+
             }
         }
     }
@@ -89,6 +95,7 @@ public class HologramManager {
                     lines.put(line);
                 }
                 holo.put("lines", lines);
+                holo.put("uid", e1.getValue().getUID().toString());
 
                 holos.put(holo);
                 e1.getValue().kill();
@@ -111,5 +118,10 @@ public class HologramManager {
 
     public Collection<ClassicHologram> getClassicHolograms() {
         return classicHolograms.values();
+    }
+
+    public void removeHologram(ClassicHologram holo) {
+        classicHolograms.remove(holo.getUID().toString());
+        holo.kill();
     }
 }

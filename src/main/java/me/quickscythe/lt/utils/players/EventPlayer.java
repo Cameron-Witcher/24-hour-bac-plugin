@@ -1,6 +1,6 @@
-package me.quickscythe.bac.utils.players;
+package me.quickscythe.lt.utils.players;
 
-import me.quickscythe.bac.utils.Utils;
+import me.quickscythe.lt.utils.Utils;
 import org.bukkit.Bukkit;
 
 import java.util.Date;

@@ -1,14 +1,14 @@
-package me.quickscythe.bac;
+package me.quickscythe.lt;
 
 
-import me.quickscythe.bac.commands.AdminCommands;
-import me.quickscythe.bac.listeners.ServerListener;
-import me.quickscythe.bac.utils.Utils;
+import me.quickscythe.lt.commands.AdminCommands;
+import me.quickscythe.lt.listeners.ServerListener;
+import me.quickscythe.lt.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BacPlugin extends JavaPlugin {
+public class LimitedTime extends JavaPlugin {
 
     public void onEnable() {
 
@@ -22,14 +22,14 @@ public class BacPlugin extends JavaPlugin {
 
         //For reloads
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!player.hasPermission("admin.not_playing")) Utils.getPlayerManager().getPlayer(player).login();
+            if (!player.hasPermission("lt.admin.not_playing")) Utils.getPlayerManager().getPlayer(player).login();
         }
     }
 
     public void onDisable() {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!player.hasPermission("admin.not_playing")) Utils.getPlayerManager().getPlayer(player).logout();
+            if (!player.hasPermission("lt.admin.not_playing")) Utils.getPlayerManager().getPlayer(player).logout();
         }
         Utils.end();
     }

@@ -1,7 +1,7 @@
-package me.quickscythe.bac.utils.placeholder;
+package me.quickscythe.lt.utils.placeholder;
 
-import me.quickscythe.bac.utils.MessageUtils;
-import me.quickscythe.bac.utils.Utils;
+import me.quickscythe.lt.utils.MessageUtils;
+import me.quickscythe.lt.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -59,7 +59,7 @@ public class PlaceholderUtils {
         registerPlaceholder("lt_3rd_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(3)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
@@ -67,70 +67,70 @@ public class PlaceholderUtils {
         registerPlaceholder("lt_4th_place_player", (player) -> {
             try {
                 return Bukkit.getOfflinePlayer(Utils.getRankings(4)).getName();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_4th_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(4)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_5th_place_player", (player) -> {
             try {
                 return Bukkit.getOfflinePlayer(Utils.getRankings(5)).getName();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_5th_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(5)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_6th_place_player", (player) -> {
             try {
                 return Bukkit.getOfflinePlayer(Utils.getRankings(6)).getName();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_6th_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(6)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_7th_place_player", (player) -> {
             try {
                 return Bukkit.getOfflinePlayer(Utils.getRankings(7)).getName();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_7th_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(7)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_8th_place_player", (player) -> {
             try {
                 return Bukkit.getOfflinePlayer(Utils.getRankings(8)).getName();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_8th_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(8)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
@@ -144,14 +144,14 @@ public class PlaceholderUtils {
         registerPlaceholder("lt_9th_place_time", (player) -> {
             try {
                 return MessageUtils.formatTimeRaw(Utils.getCachedTime(Utils.getRankings(9)));
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
         registerPlaceholder("lt_10th_place_player", (player) -> {
             try {
                 return Bukkit.getOfflinePlayer(Utils.getRankings(10)).getName();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             return "N/A";
         });
@@ -186,11 +186,8 @@ public class PlaceholderUtils {
         String tag = string;
         while (tag.contains("%symbol:")) {
             String icon = tag.split("ymbol:")[1].split("%")[0];
-            if (Symbols.valueOf(icon.toUpperCase()) == null) {
-                tag = tag.replaceAll("%symbol:" + icon + "%", Symbols.UNKNOWN.toString());
-            } else {
-                tag = tag.replaceAll("%symbol:" + icon + "%", Symbols.valueOf(icon.toUpperCase()).toString());
-            }
+            Symbols.valueOf(icon.toUpperCase());
+            tag = tag.replaceAll("%symbol:" + icon + "%", Symbols.valueOf(icon.toUpperCase()).toString());
         }
         return tag;
     }

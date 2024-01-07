@@ -1,9 +1,9 @@
-package me.quickscythe.bac.utils.holograms;
+package me.quickscythe.lt.utils.holograms;
 
 
-import me.quickscythe.bac.utils.MessageUtils;
-import me.quickscythe.bac.utils.misc.UID;
-import me.quickscythe.bac.utils.placeholder.PlaceholderUtils;
+import me.quickscythe.lt.utils.MessageUtils;
+import me.quickscythe.lt.utils.misc.UID;
+import me.quickscythe.lt.utils.placeholder.PlaceholderUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.json2.JSONArray;
@@ -70,5 +70,13 @@ public class ClassicHologram extends Hologram {
         lines.clear();
         stands.clear();
 
+    }
+
+    public void removeLine(int i) {
+        if (lines.containsKey(i) || stands.containsKey(i)) {
+            lines.remove(i);
+            stands.get(i).remove();
+            stands.remove(i);
+        }
     }
 }

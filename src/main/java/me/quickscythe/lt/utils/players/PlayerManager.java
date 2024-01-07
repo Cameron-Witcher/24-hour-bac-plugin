@@ -1,6 +1,6 @@
-package me.quickscythe.bac.utils.players;
+package me.quickscythe.lt.utils.players;
 
-import me.quickscythe.bac.utils.Utils;
+import me.quickscythe.lt.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.json2.JSONArray;
@@ -55,14 +55,14 @@ public class PlayerManager {
     public void pause() {
         paused = true;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!player.hasPermission("admin.not_playing")) getPlayer(player).logout();
+            if (!player.hasPermission("lt.admin.not_playing")) getPlayer(player).logout();
         }
     }
 
     public void unpause() {
         paused = false;
         for (Player player : Bukkit.getOnlinePlayers())
-            if (!player.hasPermission("admin.not_playing")) getPlayer(player).login();
+            if (!player.hasPermission("lt.admin.not_playing")) getPlayer(player).login();
     }
 
     public boolean isPaused() {

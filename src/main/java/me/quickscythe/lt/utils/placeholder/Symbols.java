@@ -1,4 +1,4 @@
-package me.quickscythe.bac.utils.placeholder;
+package me.quickscythe.lt.utils.placeholder;
 
 import java.util.ArrayList;
 import java.util.Collections;

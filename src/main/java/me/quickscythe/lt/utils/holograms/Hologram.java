@@ -1,6 +1,6 @@
-package me.quickscythe.bac.utils.holograms;
+package me.quickscythe.lt.utils.holograms;
 
-import me.quickscythe.bac.utils.misc.UID;
+import me.quickscythe.lt.utils.misc.UID;
 import org.bukkit.Location;
 
 public class Hologram {

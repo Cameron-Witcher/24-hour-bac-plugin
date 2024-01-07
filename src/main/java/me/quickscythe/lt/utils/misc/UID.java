@@ -1,4 +1,4 @@
-package me.quickscythe.bac.utils.misc;
+package me.quickscythe.lt.utils.misc;
 
 import java.security.SecureRandom;
 import java.util.Objects;

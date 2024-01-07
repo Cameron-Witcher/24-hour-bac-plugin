@@ -1,10 +1,10 @@
-name: 24-Hour-BAC
+name: LimitedTime
 author: QuickScythe
 version: 3.5.1
-description: Limit BAC to 23 hours per player.
+description: Limit playtime to a configured time per player.
 api-version: 1.20
 api: Spigot
-main: me.quickscythe.bac.BacPlugin
+main: me.quickscythe.bac.LimitedTime
 commands:
   playtime:
     usage: /playtime help

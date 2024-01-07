@@ -1,4 +1,4 @@
-package me.quickscythe.bac.utils;
+package me.quickscythe.lt.utils;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;

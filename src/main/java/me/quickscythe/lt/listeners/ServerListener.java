@@ -1,14 +1,14 @@
-package me.quickscythe.bac.listeners;
+package me.quickscythe.lt.listeners;
 
-import me.quickscythe.bac.BacPlugin;
-import me.quickscythe.bac.utils.Utils;
+import me.quickscythe.lt.LimitedTime;
+import me.quickscythe.lt.utils.Utils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ServerListener implements Listener {
-    public ServerListener(BacPlugin plugin) {
+    public ServerListener(LimitedTime plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
