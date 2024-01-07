@@ -4,6 +4,7 @@ import me.quickscythe.lt.LimitedTime;
 import me.quickscythe.lt.utils.holograms.ClassicHologram;
 import me.quickscythe.lt.utils.holograms.HologramManager;
 import me.quickscythe.lt.utils.placeholder.PlaceholderUtils;
+import me.quickscythe.lt.utils.placeholder.Symbols;
 import me.quickscythe.lt.utils.players.EventPlayer;
 import me.quickscythe.lt.utils.players.PlayerManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -56,11 +57,12 @@ public class Utils {
                 holo.update();
             }
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.getGameMode().equals(GameMode.SURVIVAL) && !player.hasPermission("admin.not_playing")) {
-                    long remaining = duration - playerManager.getPlayer(player).getCurrentTime();
-                    cached_times.put(player.getUniqueId(), playerManager.getPlayer(player).getCurrentTime());
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&7" + MessageUtils.formatTimeRaw(remaining))));
-                    if (remaining <= 0) player.setGameMode(GameMode.SPECTATOR);
+                if (player.getGameMode().equals(GameMode.SURVIVAL) && !player.hasPermission("lt.admin.not_playing")) {
+                    long played = playerManager.getPlayer(player).getCurrentTime();
+                    long remaining = duration - played;
+                    cached_times.put(player.getUniqueId(), played);
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtils.colorize("&a" + Symbols.HOURGLASS_1 + " &7" + MessageUtils.formatTimeRaw(remaining))));
+                    if (remaining <= 0) getPlayerManager().getPlayer(player).end();
                 }
             }
         });

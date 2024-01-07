@@ -46,6 +46,7 @@ public class PlayerManager {
                 JSONObject playerData = players.getJSONObject(i);
                 UUID uid = UUID.fromString(playerData.getString("uuid"));
                 EventPlayer player = new EventPlayer(playerData.getString("username"), uid, playerData.getLong("current_time"));
+                player.setFinished(playerData.has("finished") ? playerData.getBoolean("finished") : false);
                 playerMap.put(uid, player);
                 Utils.cacheTime(player);
             }
@@ -77,6 +78,7 @@ public class PlayerManager {
             player.put("uuid", e.getKey());
             player.put("username", e.getValue().getUsername());
             player.put("current_time", e.getValue().getCurrentTime());
+            player.put("finished", e.getValue().isFinished());
             players.put(player);
         }
         data.put("players", players);
