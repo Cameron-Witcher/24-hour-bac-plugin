@@ -24,7 +24,7 @@ public class EventPlayer {
         this.username = name;
         this.uid = uid;
         this.playtime = playtime;
-        Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),()->{if(!hasStarted())setStarted(true);},20);
+        Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),()->{if(!hasStarted())setStarted(true);},10*20);
     }
 
     public boolean hasStarted(){
@@ -32,7 +32,7 @@ public class EventPlayer {
     }
     public void setStarted(boolean b){
         started = b;
-        if(b && Bukkit.getPlayer(uid)!=null)
+        if(b && Bukkit.getPlayer(uid)!=null && logintime == 0)
             login();
     }
 
