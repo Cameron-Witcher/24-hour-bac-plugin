@@ -32,6 +32,8 @@ public class EventPlayer {
     }
     public void setStarted(boolean b){
         started = b;
+        if(b && Bukkit.getPlayer(uid)!=null)
+            login();
     }
 
     public String getUsername() {
