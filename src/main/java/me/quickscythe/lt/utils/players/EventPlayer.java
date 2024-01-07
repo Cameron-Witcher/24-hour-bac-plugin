@@ -14,6 +14,7 @@ public class EventPlayer {
     UUID uid;
     String username;
     boolean finished = false;
+    boolean started = false;
 
     public EventPlayer(String name, UUID uid) {
         this(name, uid, 0);
@@ -23,6 +24,14 @@ public class EventPlayer {
         this.username = name;
         this.uid = uid;
         this.playtime = playtime;
+        Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),()->{if(!hasStarted())setStarted(true);},20);
+    }
+
+    public boolean hasStarted(){
+        return started;
+    }
+    public void setStarted(boolean b){
+        started = b;
     }
 
     public String getUsername() {
@@ -34,7 +43,7 @@ public class EventPlayer {
     }
 
     public long getLoginTime() {
-        return logintime != 0 ? (new Date().getTime() - logintime) : 0;
+        return started ? logintime != 0 ? (new Date().getTime() - logintime) : 0 : 0;
     }
 
     public long getPlaytime() {
@@ -43,13 +52,13 @@ public class EventPlayer {
 
     public void setPlaytime(long l) {
         playtime = l;
-        if (logintime != 0 && !Utils.getPlayerManager().isPaused()) {
-            logintime = new Date().getTime();
+        if (logintime != 0 && started) {
+            login();
         }
     }
 
     public void login() {
-        if (!Utils.getPlayerManager().isPaused())
+        if (started)
             logintime = new Date().getTime();
     }
 
@@ -62,6 +71,7 @@ public class EventPlayer {
         logintime = 0;
         playtime = 0;
         finished = false;
+        started = true;
         if (Bukkit.getPlayer(uid) != null) {
             login();
             Bukkit.getPlayer(uid).setGameMode(GameMode.SURVIVAL);

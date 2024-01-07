@@ -138,6 +138,22 @@ public class AdminCommands implements CommandExecutor {
                     sender.sendMessage(MessageUtils.prefixes("playtime") + "Current playtime for " + eplayer.getUsername() + " is " + MessageUtils.formatTimeRaw(eplayer.getCurrentTime()));
                     return true;
                 }
+                if (args[0].equalsIgnoreCase("start")) {
+                    if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("@a")) {
+                        for (EventPlayer player : Utils.getPlayerManager().getPlayerMap().values())
+                            player.setStarted(true);
+
+                        return true;
+                    }
+                    if (Utils.getPlayerManager().searchPlayer(args[1]) == null) {
+                        sender.sendMessage(MessageUtils.prefixes("playtime") + "Sorry, that player wasn't found in the database.");
+                        return true;
+                    }
+                    EventPlayer eplayer = Utils.getPlayerManager().searchPlayer(args[1]);
+                    eplayer.setStarted(true);
+                    sender.sendMessage(MessageUtils.prefixes("playtime") + "Current playtime for " + eplayer.getUsername() + " is " + MessageUtils.formatTimeRaw(eplayer.getCurrentTime()));
+                    return true;
+                }
                 if (args[0].equalsIgnoreCase("reset")) {
                     if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("@a")) {
                         for (EventPlayer player : Utils.getPlayerManager().getPlayerMap().values())

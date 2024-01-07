@@ -47,6 +47,7 @@ public class PlayerManager {
                 UUID uid = UUID.fromString(playerData.getString("uuid"));
                 EventPlayer player = new EventPlayer(playerData.getString("username"), uid, playerData.getLong("current_time"));
                 player.setFinished(playerData.has("finished") ? playerData.getBoolean("finished") : false);
+                player.setStarted(playerData.has("started") ? playerData.getBoolean("started") : false);
                 playerMap.put(uid, player);
                 Utils.cacheTime(player);
             }
@@ -79,6 +80,7 @@ public class PlayerManager {
             player.put("username", e.getValue().getUsername());
             player.put("current_time", e.getValue().getCurrentTime());
             player.put("finished", e.getValue().isFinished());
+            player.put("started", e.getValue().hasStarted());
             players.put(player);
         }
         data.put("players", players);
