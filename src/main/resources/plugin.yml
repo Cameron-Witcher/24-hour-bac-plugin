@@ -18,3 +18,6 @@ commands:
     usage: /hologram create
     aliases:
       - holo
+  update:
+    usage: /update
+    description: Update new version directly to server, overwriting the old version.

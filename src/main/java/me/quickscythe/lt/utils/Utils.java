@@ -14,6 +14,11 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -55,6 +60,12 @@ public class Utils {
         addPalpitation(() -> {
             for (ClassicHologram holo : getHologramManager().getClassicHolograms()) {
                 holo.update();
+            }
+            for(EventPlayer player : playerManager.getPlayerMap().values()){
+                if(!player.hasStarted()){
+                    if(new Date().getTime() - player.getOriginalJoin() >= TimeUnit.MILLISECONDS.convert(10, TimeUnit.MINUTES))
+                        player.setStarted(true);
+                }
             }
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getGameMode().equals(GameMode.SURVIVAL) && !player.hasPermission("lt.admin.not_playing")) {
@@ -183,6 +194,54 @@ public class Utils {
 
     public static long getCachedTime(UUID uid) {
         return cached_times.get(uid);
+    }
+
+    public static boolean downloadFile(String url, String filename, String... auth) {
+
+        boolean success = true;
+        InputStream in = null;
+        FileOutputStream out = null;
+
+        try {
+
+            URL myUrl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) myUrl.openConnection();
+            conn.setDoOutput(true);
+            conn.setReadTimeout(30000);
+            conn.setConnectTimeout(30000);
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept-Charset", "UTF-8");
+            conn.setRequestMethod("GET");
+
+            if (auth != null && auth.length >= 2) {
+                String userCredentials = auth[0].trim() + ":" + auth[1].trim();
+                String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userCredentials.getBytes()));
+                conn.setRequestProperty("Authorization", basicAuth);
+            }
+            in = conn.getInputStream();
+            out = new FileOutputStream(filename);
+            int c;
+            byte[] b = new byte[1024];
+            while ((c = in.read(b)) != -1) out.write(b, 0, c);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            success = false;
+        } finally {
+            if (in != null) try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (out != null) try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return success;
     }
 
     private static class Heartbeat implements Runnable {

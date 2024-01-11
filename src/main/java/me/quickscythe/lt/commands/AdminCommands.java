@@ -29,6 +29,26 @@ public class AdminCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender.hasPermission("lt.admin.cmd." + cmd.getName().toLowerCase())) {
+            if (cmd.getName().equalsIgnoreCase("update")) {
+
+
+                String plugin = "limited-time";
+                String filename = plugin + ".jar";
+                String url = "https://ci.vanillaflux.com/job/" + plugin + "/lastSuccessfulBuild/artifact/target/" + filename;
+                sender.sendMessage(MessageUtils.prefixes("admin") + "Downloading " + filename + "...");
+                if (Utils.downloadFile(url, "plugins/" + filename, "quick", "CGtLLf9gckbh4xb@"))
+                    sender.sendMessage(MessageUtils.prefixes("admin") + MessageUtils.colorize("Finished downloading " + filename));
+                else {
+                    sender.sendMessage(MessageUtils.prefixes("admin") + MessageUtils.colorize("There was an error downloading " + filename + ". Trying alt site..."));
+                    if (Utils.downloadFile("https://downloads.vanillaflux.com/" + filename, "plugins/" + filename, "admin", "v4pob8LW"))
+                        sender.sendMessage(MessageUtils.prefixes("admin") + MessageUtils.colorize("Finished downloading " + filename));
+                    else {
+                        sender.sendMessage(MessageUtils.prefixes("admin") + MessageUtils.colorize("There was an error downloading " + filename + ". Trying alt site..."));
+                    }
+                }
+
+
+            }
             if (cmd.getName().equalsIgnoreCase("hologram")) {
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(MessageUtils.prefixes("hologram") + "Sorry, you must be a player to run this command.");
@@ -46,6 +66,7 @@ public class AdminCommands implements CommandExecutor {
                     String key = "&f  /" + label + " ";
                     player.sendMessage(MessageUtils.colorize(key + "help &7- Shows this menu."));
                     player.sendMessage(MessageUtils.colorize(key + "create &7- Creates a hologram."));
+                    player.sendMessage(MessageUtils.colorize(key + "list &7- Lists all holograms."));
                     player.sendMessage(MessageUtils.colorize(key + "edit <id> &7- Shows edit settings for a hologram."));
                     return true;
                 }
@@ -77,7 +98,7 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
                     ClassicHologram holo = Utils.getHologramManager().getClassicHologram(args[1]);
-                    if(holo == null){
+                    if (holo == null) {
                         player.sendMessage(MessageUtils.prefixes("hologram") + "That hologram doesn't exist. Try /" + label + " list");
                         return true;
                     }
@@ -91,11 +112,11 @@ public class AdminCommands implements CommandExecutor {
                         holo.move(loc);
                         return true;
                     }
-                    if(args[2].equalsIgnoreCase("remove") || args[2].equalsIgnoreCase("delete")){
+                    if (args[2].equalsIgnoreCase("remove") || args[2].equalsIgnoreCase("delete")) {
                         Utils.getHologramManager().removeHologram(holo);
                     }
-                    if(args[2].equalsIgnoreCase("removeline")){
-                        if(args.length == 3){
+                    if (args[2].equalsIgnoreCase("removeline")) {
+                        if (args.length == 3) {
                             sender.sendMessage(MessageUtils.prefixes("hologram") + "Try /" + label + " edit " + args[1] + " removeline <line-number>");
                             return true;
                         }
@@ -117,12 +138,13 @@ public class AdminCommands implements CommandExecutor {
                     sender.sendMessage(MessageUtils.colorize("&f /" + label + " help &7- Display this list"));
                     sender.sendMessage(MessageUtils.colorize("&f /" + label + " get <player> &7- Gets a player's current play-time in a human readable format"));
                     sender.sendMessage(MessageUtils.colorize("&f /" + label + " reset <player|@a> &7- Resets a player's current playtime"));
-                    sender.sendMessage(MessageUtils.colorize("&f /" + label + " <set|add> <player> <integer>[(h)[ours]|m[inutes]|s[econds]] &7- Sets a player's current play-time (not working yet)"));
+                    sender.sendMessage(MessageUtils.colorize("&f /" + label + " <set|add> <player|@a> <integer>[(h)[ours]|m[inutes]|s[econds]] &7- Sets a player's current play-time (not working yet)"));
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("pause")) {
                     if (Utils.getPlayerManager().isPaused()) Utils.getPlayerManager().pause();
                     else Utils.getPlayerManager().unpause();
+                    sender.sendMessage(MessageUtils.prefixes("hologram") + MessageUtils.colorize("Paused: " + (Utils.getPlayerManager().isPaused() ? "&atrue" : "&cfalse")));
                     return true;
                 }
                 if (args.length < 2) {

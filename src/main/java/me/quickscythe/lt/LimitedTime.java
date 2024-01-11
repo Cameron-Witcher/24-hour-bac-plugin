@@ -15,7 +15,7 @@ public class LimitedTime extends JavaPlugin {
 
         new ServerListener(this);
 
-        new AdminCommands(this, "playtime", "hologram");
+        new AdminCommands(this, "playtime", "hologram", "update");
 
         Utils.init(this);
 

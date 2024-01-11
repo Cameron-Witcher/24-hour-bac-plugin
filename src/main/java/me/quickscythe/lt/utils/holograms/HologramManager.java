@@ -99,7 +99,6 @@ public class HologramManager {
 
                 holos.put(holo);
                 e1.getValue().kill();
-                Bukkit.broadcastMessage(holo.toString());
             }
         }
         hdata.put("classic_holograms", holos);

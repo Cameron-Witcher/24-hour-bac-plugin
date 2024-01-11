@@ -1,6 +1,5 @@
 package me.quickscythe.lt.utils.players;
 
-import me.quickscythe.lt.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -15,6 +14,7 @@ public class EventPlayer {
     String username;
     boolean finished = false;
     boolean started = false;
+    long original_join = new Date().getTime();
 
     public EventPlayer(String name, UUID uid) {
         this(name, uid, 0);
@@ -24,16 +24,25 @@ public class EventPlayer {
         this.username = name;
         this.uid = uid;
         this.playtime = playtime;
-        Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),()->{if(!hasStarted())setStarted(true);},10*20);
+
+//        Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),()->{if(!hasStarted())setStarted(true);},5*60*20);
     }
 
-    public boolean hasStarted(){
+    public long getOriginalJoin() {
+        return original_join;
+    }
+
+    public void setOriginalJoin(long original_join) {
+        this.original_join = original_join;
+    }
+
+    public boolean hasStarted() {
         return started;
     }
-    public void setStarted(boolean b){
+
+    public void setStarted(boolean b) {
         started = b;
-        if(b && Bukkit.getPlayer(uid)!=null && logintime == 0)
-            login();
+        if (b && Bukkit.getPlayer(uid) != null && logintime == 0) login();
     }
 
     public String getUsername() {
@@ -60,8 +69,7 @@ public class EventPlayer {
     }
 
     public void login() {
-        if (started)
-            logintime = new Date().getTime();
+        if (started) logintime = new Date().getTime();
     }
 
     public void logout() {
@@ -91,22 +99,22 @@ public class EventPlayer {
         return uid;
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         return finished;
     }
 
+    public void setFinished(boolean b) {
+        finished = b;
+    }
+
     public void end() {
-        if(!finished){
+        if (!finished) {
             finished = true;
-            if(Bukkit.getPlayer(uid)!=null){
+            if (Bukkit.getPlayer(uid) != null) {
                 Player player = Bukkit.getPlayer(uid);
                 player.getWorld().strikeLightningEffect(player.getLocation());
                 player.setGameMode(GameMode.SPECTATOR);
             }
         }
-    }
-
-    public void setFinished(boolean b) {
-        finished = b;
     }
 }
